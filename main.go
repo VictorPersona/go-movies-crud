@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"encoding/json"
-	"math/rand",
+	"math/rand"
 	"net/http"
 	"strconv"
 	"log"
@@ -27,6 +27,7 @@ var movies []Movie
 func getMovies(w http.ResponseWriter,r *http.Request){
 	w.Header().Set("Content-Type","application/json")
 	json.NewEncoder(w).Encode(movies)
+	return 
 }
 
 func deleteMovie(w http.ResponseWriter,r *http.Request){
@@ -37,7 +38,7 @@ func deleteMovie(w http.ResponseWriter,r *http.Request){
 	for index,item :=range movies{
 		
 		if item.ID == params["id"]{
-			movies = append(movies[:index],movies[index+1]...)
+			movies = append(movies[:index],movies[index+1:]...)
 			json.NewEncoder(w).Encode(movies)
 			break
 		}
@@ -76,6 +77,7 @@ func updateMovie(w http.ResponseWriter,r *http.Request){
 	for index,item := range movies{
 		if item.ID == params["id"]{
 			movies = append(movies[:index],movies[index+1:]...)
+			break
 		}
 	}
 	var movie Movie
